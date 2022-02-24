@@ -1,18 +1,26 @@
 <template>
   <div class="tdl container">
     <!-- 标题 -->
-    <Title></Title>
-    <Page></Page>
+    <div class="row">
+      <div class="col-md-2">
+        <Side></Side>
+      </div>
+      <div class="col-md-10">
+        <MainPage></MainPage>
+      </div>
+    </div>
+    
+    <!-- <Page></Page> -->
   </div>
 </template>
 
 <script>
-import Title from './components/Title'
-import Page from './components/Page'
+import Side from './components/Side'
+import MainPage from './components/MainPage'
 
 export default {
   name: 'APP',
-  components:{Title,Page},
+  components:{Side,MainPage},
 }
 </script>
 

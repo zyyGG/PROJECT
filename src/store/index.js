@@ -123,7 +123,7 @@ export default new Vuex.Store({
     toggleAll(context, value) {
       context.commit("TOGGLEALL", value);
     },
-    // 下一页
+    // 翻页 1是一页,-1是上翻一页
     ChangePage(context, value) {
       // 如果翻页没有超出上限 那就可以增加
       if (
@@ -137,6 +137,26 @@ export default new Vuex.Store({
       }
       context.dispatch("sortArr");
     },
+    //删除选中状态的项目 
+    deleteCheck(context){
+      let node = context.state.listDatas
+      for(let i=0;i<node.length;i++){
+        if(node[i].isCheck==true){
+          //执行删除任务
+          context.commit("DELETETASK",node[i].id)
+        }
+      }
+      //整理列表
+      context.dispatch("sortArr");
+    },
+    //更改pagination每页个数的值
+    changePagination(context,value){
+      context.commit("CHANGEPAGINATION",value)
+      // 重置当前页
+      context.state.localPage=1;
+      // 重新排序
+      context.dispatch("sortArr")
+    }
   },
   mutations: {
     // mutations 执行删除任务请求
@@ -173,6 +193,10 @@ export default new Vuex.Store({
     CHANGEPAGE(state, value) {
       state.localPage += value;
     },
+    //修改Pagination的值
+    CHANGEPAGINATION(state,value){
+      state.pagination=value;
+    }
   },
   getters: {},
 });

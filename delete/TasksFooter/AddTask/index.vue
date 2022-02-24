@@ -1,10 +1,12 @@
 <template>
-  
+    <div>
+        <button>添加 + </button>
+    </div>
 </template>
 
 <script>
 export default {
-    name:"SideNav",
+name:"AddTask"
 }
 </script>
 

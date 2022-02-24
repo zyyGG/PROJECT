@@ -1,0 +1,85 @@
+/* all */
+.tdl{
+    background:linear-gradient(to top,pink,skyblue);
+    min-height:100vh;
+}
+
+
+/* 标题 */
+.tdl-title{
+    margin-bottom:30px;
+    color:antiquewhite;
+    background-color:coral;
+    border:5px double white;
+}
+
+/* 正文 */
+.tdl-page{
+
+}
+
+/* 侧边导航栏 */
+.tdl-sideNav{
+
+}
+.tdl-sideNav li{
+    padding:15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+.tdl-sideNav li a{
+    color:bisque;
+    text-decoration: none;
+}
+.tdl-sideNav li:first-child{
+    background-color: coral;
+    border-radius: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.tdl-sideNav li:hover{
+    background-color:white;
+}
+.tdl-sideNav li:first-child:hover{
+    background:transparent;
+}
+.tdl-sideNav li:hover a{
+    color:gray;
+}
+
+/* 主区域 */
+.tdl-mainArea{
+    
+}
+/* 排序与筛选菜单 */
+.tdl-mainArea-menu{
+    padding:15px;
+}
+.tdl-mainArea-menu ul{
+    
+}
+/* 排序选项 */
+.tdl-sort{
+
+}
+/* 筛选菜单 */
+.sdl-filt{
+
+}
+
+/* 任务列表 */
+.tdl-task{
+}
+.tdl-task li{
+    padding:20px 0px;
+    cursor:pointer;
+}
+.tdl-task li:hover{
+    background-color:white;
+    outline:2px solid crimson;
+}
+
+/* 菜单列表 */
+.tdl-menu{
+
+}

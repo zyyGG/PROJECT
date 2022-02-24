@@ -10,7 +10,6 @@
       <!-- 标记 -->
       <i class="fa-solid fa-flag" :class="{flagActive:listData.isToggle}" @click="changeToggle(listData.id)"></i>
     </div>
-    <!-- 菜单 -->
     <div class="col-md-4 text-center">
       <!-- 任务名称 -->
       <span>{{listData.name}}</span>
