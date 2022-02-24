@@ -2,7 +2,12 @@
   <!-- 任务列表 -->
   <div class="tdl-task row">
     <ul class="list-unstyled">
-      <SingelTask v-for="listData in listDatas" :key="listData.id" :listData="listData" v-show="listData.isShow"></SingelTask>
+      <SingelTask
+        v-for="listData in listDatas"
+        :key="listData.id"
+        :listData="listData"
+        v-show="listData.isShow"
+      ></SingelTask>
     </ul>
   </div>
 </template>
@@ -13,12 +18,12 @@ import SingelTask from './SingelTask'
 export default {
   name: "Task",
   components: { SingelTask },
-  computed:{
-    listDatas(){
+  computed: {
+    listDatas () {
       return this.$store.state.listDatas
     }
   },
-  
+
 }
 </script>
 

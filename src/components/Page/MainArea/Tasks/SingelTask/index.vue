@@ -56,7 +56,4 @@ export default {
 .flagActive{
   color:red;
 }
-.moveBar *{
-  /* margin-right:10px; */
-}
 </style>
