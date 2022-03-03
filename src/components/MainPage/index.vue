@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mainPage">
     <!-- 菜单栏 -->
     <div>
       <MenuBar></MenuBar>
@@ -10,7 +10,7 @@
       <Tasks></Tasks>
     </div>
 
-    <!-- 底部区域 -->
+    <!-- 任务栏底部区域 翻页和页码显示，添加任务-->
     <TasksFooter></TasksFooter>
   </div>
 </template>
@@ -22,9 +22,9 @@ import TasksFooter from './TasksFooter'
 
 export default {
   name: "MainPage",
-  components: { MenuBar, Tasks ,TasksFooter},
+  components: { MenuBar, Tasks, TasksFooter },
 }
 </script>
 
-<style>
+<style scoped>
 </style>

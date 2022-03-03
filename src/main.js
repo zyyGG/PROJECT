@@ -3,6 +3,8 @@ import App from './App.vue'
 
 // vuex 仓库
 import store from './store'
+//animate 动画组件
+import 'animate.css';
 
 Vue.config.productionTip = false
 

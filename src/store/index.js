@@ -37,7 +37,7 @@ export default new Vuex.Store({
       },
     ],
     editMode: false, //是否进入编辑模式
-    pagination: 4, //每页显示几个任务
+    pagination: 5, //每页显示几个任务
     localPage: 1, //当前位于第几页
   },
   actions: {

@@ -27,8 +27,8 @@ export default {
 <style>
 /* all */
 .tdl{
-    background:linear-gradient(to top,pink,skyblue);
-    min-height:100vh;
+    min-height:50vh;
+    border:10px double #ddd;
 }
 
 

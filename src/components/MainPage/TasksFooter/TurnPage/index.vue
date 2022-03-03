@@ -1,5 +1,5 @@
 <template>
-  <div class="btn-group btn-group-lg">
+  <div class="turnPage btn-group">
       <!-- 上一页 -->
     <button class="btn btn-link" @click="ChangePage(-1)">
       <i class="fa-solid fa-angle-left"></i>
@@ -46,5 +46,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.turnPage{
+  float:right;
+}
 </style>

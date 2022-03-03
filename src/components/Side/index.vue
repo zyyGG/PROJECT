@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="side"> 
     <Title></Title>
     <SideMenu></SideMenu>
   </div>
@@ -17,5 +17,5 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 </style>
