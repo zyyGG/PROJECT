@@ -1,4 +1,5 @@
 <template>
+  <!-- 每页显示多少个任务 -->
   <div>
     <select v-model="paginationNum">
       <option :value="5">5/页</option>
@@ -16,16 +17,16 @@ export default {
   name: "ShowNum",
   data () {
     return {
-        paginationNum:5 // 默认每页可以显示几个
+      paginationNum: 5 // 默认每页可以显示几个
     }
   },
   computed: {
     ...mapState(["localPage", "pagination"])
   },
-  watch:{
-      paginationNum(){
-          this.$store.dispatch("changePagination",this.paginationNum)
-      }
+  watch: {
+    paginationNum () {
+      this.$store.dispatch("changePagination", this.paginationNum)
+    }
   }
 }
 </script>

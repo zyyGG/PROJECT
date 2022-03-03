@@ -25,16 +25,6 @@ function formatTime() {
 export default new Vuex.Store({
   state: {
     listDatas: [
-      {
-        id: uuidv4(),
-        name: "我的任务", //任务名称
-        addTime: "2022-2-16 00:00", //添加时间
-        lastChangeTime: "2022-2-16 12:00", //最后修改时间
-        position: 1,
-        isShow: true, //是否显示
-        isCheck: false, //是否选中
-        isToggle: false, //是否被标记
-      },
     ],
     editMode: false, //是否进入编辑模式
     pagination: 5, //每页显示几个任务
@@ -60,6 +50,10 @@ export default new Vuex.Store({
         }
         length -= 1;
       });
+    },
+    //初始化所有数据
+    initState(context,obj){
+      context.commit("INITSTATE",obj)
     },
     // actions 处理删除任务请求
     deleteTask(context, value) {
@@ -156,6 +150,10 @@ export default new Vuex.Store({
       context.state.localPage=1;
       // 重新排序
       context.dispatch("sortArr")
+    },
+    // 更改名字
+    changeName(context,value){
+      context.commit("CHANGENAME",value)
     }
   },
   mutations: {
@@ -196,6 +194,21 @@ export default new Vuex.Store({
     //修改Pagination的值
     CHANGEPAGINATION(state,value){
       state.pagination=value;
+    },
+    // 根据id修改,listDatas.name的值
+    CHANGENAME(state,value){
+      // value.value,value.id
+      for(let i = 0;i<state.listDatas.length;i++){
+        if(state.listDatas[i].id==value.id){
+          state.listDatas[i].name=value.value;
+        }
+      }
+    },
+    // 初始化state的值
+    INITSTATE(state,obj){
+      for (const key in state) {
+        state[key]=obj[key]
+      }
     }
   },
   getters: {},
