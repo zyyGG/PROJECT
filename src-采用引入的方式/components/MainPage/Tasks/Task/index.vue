@@ -6,7 +6,7 @@
       <input type="checkbox" v-model="listData.isCheck" />
 
       <!-- 菜单图标 -->
-      <i class="fa-solid fa-align-justify"></i>
+      <!-- <i class="fa-solid fa-align-justify"></i> -->
 
       <!-- flag标记 -->
       <!-- @click 更改isToggle的值，来变色 -->

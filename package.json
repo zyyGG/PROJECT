@@ -9,11 +9,13 @@
   },
   "dependencies": {
     "animate.css": "^4.1.1",
+    "ant-design-vue": "^1.7.8",
     "core-js": "^3.21.0",
     "router-link": "^0.0.4",
     "typescript": "^4.5.5",
     "uuid": "^8.3.2",
     "vue": "^2.6.11",
+    "vue-router": "^3.5.3",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
