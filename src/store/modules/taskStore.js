@@ -1,3 +1,6 @@
+import {v4 as uuid} from 'uuid'
+uuidv4()
+
 const state={
     taskDatas:[
         {
@@ -18,7 +21,7 @@ const state={
     ]
 }
 const actions={
-
+    //添加一个任务
 }
 const mutations={
 
