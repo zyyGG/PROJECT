@@ -1,53 +1,82 @@
 <template>
-  <!-- 单个任务-弃用2022-3-11 -->
-  <div style="padding:10px 0;margin:5px 0">
-    <a-row type="flex" align="middle">
-      <a-col :span="1" type="flex" align="center">
-        <!-- 通过v-model绑定此任务的isCheck的值 -->
-          <a-checkbox :checked="taskData.isCheck" @click="checkedTask(taskData.id)"></a-checkbox>
-      </a-col>
-      <a-col :span="3">
-          <a-icon type="flag" :theme="taskData.isFlag?'twoTone':'outlined'" @click="flagTask(taskData.id)" />
-        
-      </a-col>
-      <a-col :span="11">
-        <span>{{taskData.name}}</span>
-      </a-col>
-      <a-col :span="5">
-        <span>{{taskData.createDate}}</span>
-      </a-col>
-      <a-col>
-        <a-button type="link" @click="deleteTask(taskData.id)"><a-icon type="delete" /></a-button>
-      </a-col>
-    </a-row>
+  <div class="editable-cell">
+    <div v-show="!isEdit" class="editable-cell-text">
+      <span>{{ taskData.name }}</span>
+      <a-icon
+        type="edit"
+        @click="isEdit = !isEdit"
+        class="editable-cell-icon-edit"
+      ></a-icon>
+    </div>
+    <div v-show="isEdit" class="editable-cell-input">
+      <a-input
+        size="small"
+        :value="value"
+        @change="handleChange"
+        @pressEnter="changeTaskName(taskData.key)"
+      ></a-input>
+      <a-icon type="check" class="editable-cell-icon-check" @click="changeTaskName(taskData.key)"></a-icon>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Task",
+  props:['taskData'],
   data() {
     return {
-      taskFlag:this.taskData.isFlag,
+      isEdit:false,
+      value:"",
     }
   },
-  props:["taskData"],
   methods:{
-    // 删除一个任务
-    deleteTask(id){
-      this.$store.dispatch("TaskStore/deleteTaskById",id)
+    // 输入框的值发生变化的时候执行
+    handleChange(e){
+      this.value=e.target.value
     },
-    //选中/取消选中
-    checkedTask(id){
-      this.$store.dispatch("TaskStore/changeTaskIsCheck",{id:this.taskData.id,checked:!this.taskData.isCheck})
-    },
-    //标记/取消标记
-    flagTask(id){
-      this.$store.dispatch("TaskStore/changeTaskIsFlag",{id:this.taskData.id,flag:!this.taskData.isFlag})
+    changeTaskName(key){
+      this.isEdit=false;
+      this.$store.dispatch("TaskStore/changeTaskName",{key:key,name:this.value})
+      this.value=" "
     }
-  },
+  }
 }
 </script>
 
-<style>
+<style scoped>
+
+.editable-cell {
+  position: relative;
+}
+.editable-cell-input,
+.editable-cell-text {
+  padding-right: 24px;
+}
+.editable-cell-text {
+  padding: 5px 24px 5px 5px;
+}
+
+.editable-cell-icon-edit,
+.editable-cell-icon-check {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.editable-cell-icon-edit {
+  opacity: 0;
+  line-height: 18px;
+}
+.editable-cell-icon-check {
+  line-height: 25px;
+}
+.editable-cell-icon-edit:hover,
+.editable-cell-icon-check:hover {
+  color: #108ee9;
+}
+.editable-cell:hover .editable-cell-icon-edit {
+  opacity: 1;
+}
 </style>

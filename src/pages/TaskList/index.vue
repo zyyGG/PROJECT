@@ -4,31 +4,30 @@
     <!-- <TaskTool></TaskTool> -->
     <!-- :data-source="$store.state.TaskStore.taskDatas" -->
     <a-table
-      :columns="columns"
       :data-source="$store.state.TaskStore.taskDatas"
-      bordered
+      tableLayout="fixed"
       :row-selection="rowSelection"
     >
-      <!-- 修改任务名称 -->
-      <div slot="name" slot-scope="taskData" class="editable-cell">
-        <!-- 常态下显示字符 -->
-        <div v-show="!taskData.onEdit" class="editable-cell-text">
-          {{ taskData.name || " " }}
-          <a-icon type="edit" class="editable-cell-icon-edit" @click="enterEdit(taskData.key)"></a-icon>
-        </div>
-        
-        <!-- 编辑模式下显示输入框 -->
-        <div v-show="taskData.onEdit" class="editable-cell-input">
-          <a-input></a-input>
-          <a-icon type="check" class="editable-cell-icon-check"></a-icon>
-        </div>
-      </div>
-      <!-- 功能列表 -->
-      <span slot="action" slot-scope="taskData">
-        <a>检查-{{ taskData.name }}</a>
-        <a-divider type="vertical" />
-        <a>delete</a>
-      </span>
+    <a-table-column key="flag" title="标记">
+      <template slot-scope="taskData">
+        <FlagButton :isFlag="taskData.isFlag" :taskKey="taskData.key"></FlagButton>
+      </template>
+    </a-table-column>
+      <a-table-column key="taskName" title="TaskName">
+        <template slot-scope="taskData">
+          <Task :taskData="taskData"></Task>
+        </template>
+      </a-table-column>
+      <a-table-column
+        key="createTime"
+        data-index="createDate"
+        title="CreateTime"
+      ></a-table-column>
+      <a-table-column key="action" title="Action">
+        <template slot-scope="taskData">
+          <a-icon type="delete" @click="deleteTask(taskData.key)" />
+        </template>
+      </a-table-column>
     </a-table>
   </div>
 </template>
@@ -37,107 +36,77 @@
 import Task from './Task'
 import TaskTurnPage from './TaskTurnPage'
 import TaskTool from './TaskTool'
+import FlagButton from './FlagButton'
 
-const columns = [
-  // TaskName
-  {
-    key: "TaskName",
-    //dataIndex: "name",//任务名称数据来源，必须和taskDatas里的数据名称一致
-    title: "任务名",
-    scopedSlots: { customRender: "name" } //使用这个属性，不能添加dataIndex属性
-  },
-  // CreateData 创建时间
-  {
-    key: "CreateTime",
-    dataIndex: "createTime",//展示出来的数据来源
-    title: "创建时间"
-  },
-  //actions 操作
-  {
-    key: "Action",
-    title: "操作",
-    scopedSlots: { customRender: 'action' }
-  }
-]
-// 选中的操作
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-  },
-  onSelect: (record, selected, selectedRows) => {
-    // console.log("4444onSelect",record, selected, selectedRows)
-  },
-  onSelectAll: (selected, selectedRows, changeRows) => {
-    console.log("demo-onSelectAll", selected, selectedRows, changeRows)
-  },
-}
+// // 选中的操作
+// const rowSelection = {
+//   onChange: (selectedRowKeys, selectedRows) => {
+//     // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+//   },
+//   onSelect: (record, selected, selectedRows) => {
+//     // console.log("onSelect",record, selected, selectedRows)
+//   },
+//   onSelectAll: (selected, selectedRows, changeRows) => {
+//     // console.log("demo-onSelectAll", selected, selectedRows, changeRows)
+//   },
+// }
 
 export default {
   name: "TaskList",
-  components: { Task, TaskTurnPage, TaskTool },
+  components: { Task, TaskTurnPage, TaskTool,FlagButton },
   data () {
     return {
-      rowSelection,
-      columns,
+      selectedRowKeys: [],//记录了所有选中的元素
     }
   },
   methods: {
     // 删除一个任务
-    deleteTask (id) {
-      this.$store.dispatch("TaskStore/deleteTaskById", id)
+    deleteTask (key) {
+      this.$store.dispatch("TaskStore/deleteTaskById", key)
     },
-    //选中/取消选中
-    checkedTask (id, isCheck) {
-      this.$store.dispatch("TaskStore/changeTaskIsCheck", { id: id, checked: !isCheck })
-    },
-    //标记/取消标记
-    flagTask (id, isFlag) {
-      this.$store.dispatch("TaskStore/changeTaskIsFlag", { id: id, flag: !isFlag })
-    },
-    //进入编辑模式
-    enterEdit(id){
-      this.$store.dispatch("TaskStore/changeTaskOnEdit", id)
-    }
   },
+  computed: {
+    rowSelection () {
+      const { selectedRowKeys } = this
+      return {
+        selectedRowKeys,
+        hideDefaultSelections: true,//隐藏默认的两个选项
+        //数据发生变化时执行
+        onChange: (selectedRowKeys) => {
+          this.selectedRowKeys = selectedRowKeys
+        },
+        selections: [
+          {
+            key: 'delete',
+            text: "删除",
+            onSelect: () => {
+              // 执行删除
+              if (this.selectedRowKeys != undefined) {
+                this.selectedRowKeys.forEach(key => {
+                  // 这里的element=key
+                  this.$store.dispatch("TaskStore/deleteTaskById", key)
+                })
+              }
+            },
+          },
+          {
+            key: "seleteAll",
+            text: "全选(所有)",
+            onSelect: () => {
+              let allTaskKey = []
+              this.$store.state.TaskStore.taskDatas.forEach(element => {
+                allTaskKey.push(element.key)
+              })
+              this.selectedRowKeys = allTaskKey
+            }
+          },
+        ],
+      }
+
+    }
+  }
 }
 </script>
 
 <style scoped>
-.editable-cell{
-  position:relative;
-  max-width:200px;
-}
-.editable-cell-input,
-.editable-cell-text{
-  padding-right:24px
-}
-.editable-cell-text{
-  padding: 5px 24px 5px 5px;
-}
-
-.editable-cell-icon-edit,
-.editable-cell-icon-check{
-  position:absolute;
-  right:0;
-  width:20px;
-  cursor:pointer;
-  transition:all .3s
-}
-.editable-cell-icon-edit{
-  opacity:0;
-  line-height:18px;
-}
-.editable-cell-icon-check{
-  line-height:28px
-}
-.editable-cell-icon-edit:hover,
-.editable-cell-icon-check:hover
-{
-color:#108ee9;
-}
-.editable-cell:hover .editable-cell-icon-edit{
-  opacity:1
-}
-
-
 </style>
