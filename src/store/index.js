@@ -6,6 +6,8 @@ import TaskStore from './modules/taskStore'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
+    //严格模式防止出现mutation以外的方法修改state
+    strict: process.env.NODE_ENV !== 'production',//在开发模式中启用严格模式
     modules:{
         TaskStore,
     }

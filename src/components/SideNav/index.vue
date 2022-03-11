@@ -1,6 +1,6 @@
 <template>
   <!-- 侧边栏导航 -->
-  <div class="sidenav">
+  <div id="sidenav">
     <div class="logo">L<router-link to="/home"><a-icon spin type="loading-3-quarters" /></router-link>GO</div>>
     <!-- 用户导航菜单 -->
     <a-menu mode="inline" theme="dark">
@@ -72,5 +72,8 @@ export default {
   background-color:rgba(255, 255, 255, 0.2);
   margin:16px;
   font-size:25px
+}
+#sidenav{
+  min-height: 70vh;
 }
 </style>

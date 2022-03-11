@@ -27,6 +27,18 @@
       <a-col :span="1">
         <router-link to="/register">注册</router-link>
       </a-col>
+      <a-col :span="1">
+        <a-dropdown :trigger="['click']">
+          <a-button><a-icon type="plus"/>添加任务</a-button>
+          <a-menu slot="overlay">
+            <a-menu-item @click="addManyTask(10)">添加10个</a-menu-item>
+            <a-menu-item @click="addManyTask(20)">添加20个</a-menu-item>
+            <a-menu-item @click="addManyTask(50)">添加50个</a-menu-item>
+            <a-menu-item @click="addManyTask(200)">添加200个</a-menu-item>
+            <a-menu-item @click="addManyTask(2000)">添加2000个</a-menu-item>
+          </a-menu>
+        </a-dropdown>
+      </a-col>
     </a-row>
   </div>
 </template>
@@ -37,7 +49,17 @@ import TasksFooter from "./components/TasksFooter"
 import TasksHeader from "./components/TasksHeader"
 export default {
   name: "App",
-  components: { SideNav, TasksFooter, TasksHeader }
+  components: { SideNav, TasksFooter, TasksHeader },
+
+  // 测试用-可以删除
+  methods:{
+    addManyTask(titck){
+      for(let i=0;i<titck;i++){
+        this.$store.dispatch("TaskStore/addTask",{name:"demo",time:"demo-time"})
+      }
+      
+    }
+  }
 }
 </script>
 

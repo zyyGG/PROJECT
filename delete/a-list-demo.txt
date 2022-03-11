@@ -1,0 +1,44 @@
+<!-- list的配置:
+                    data-source: 资源来源
+                    item-layout:vertical 竖着排列
+                    grid 响应式布局
+                    pagination: 翻页组件 -->
+
+<a-list
+      :data-source="$store.state.TaskStore.taskDatas"
+      item-layout="vertical"
+      :grid="{ column: 1 }"
+      :locale="{ emptyText: '添加一个新的任务吧！' }"
+    >
+      <a-list-item slot="renderItem" key="taskData.id" slot-scope="taskData">
+        <a-col :span="1" type="flex" align="center">
+          <!-- 通过v-model绑定此任务的isCheck的值 -->
+          <a-checkbox
+            :checked="taskData.isCheck"
+            @click="checkedTask(taskData.id, taskData.isCheck)"
+          ></a-checkbox>
+        </a-col>
+        <a-col :span="3">
+          <!-- 标记flag按钮 -->
+          <a-icon
+            type="flag"
+            :theme="taskData.isFlag ? 'twoTone' : 'outlined'"
+            @click="flagTask(taskData.id, taskData.isFlag)"
+          />
+        </a-col>
+        <a-col :span="10">
+          <!-- 任务名 -->
+          <span>{{ taskData.name }}</span>
+        </a-col>
+        <a-col :span="5">
+          <!-- 任务创建时间 -->
+          <span>{{ taskData.createDate }}</span>
+        </a-col>
+        <a-col :span="1">
+          <!-- 删除按钮 -->
+          <a-button type="link" @click="deleteTask(taskData.id)">
+            <a-icon type="delete" />
+          </a-button>
+        </a-col>
+      </a-list-item>
+    </a-list>
