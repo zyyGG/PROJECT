@@ -2,7 +2,7 @@
   <div>
     <a-icon
       type="flag"
-      :theme="isFlag ? 'twoTone' : 'outlined'"
+      :theme="taskData.isFlag ?'twoTone': 'outlined' "
       @click="changeFlag"
     ></a-icon>
   </div>
@@ -11,10 +11,10 @@
 <script>
 export default {
   name: "FlagButton",
-  props: ["isFlag", "taskKey"],
+  props: ["taskData"],
   methods: {
     changeFlag () {
-      this.$store.dispatch("TaskStore/changeTaskIsFlag", this.taskKey)
+      this.$store.dispatch("TaskStore/changeTaskIsFlag", this.taskData.key)
     }
   }
 }

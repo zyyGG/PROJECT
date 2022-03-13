@@ -12,6 +12,9 @@ Vue.use(Antd)
 import VueRouter from "vue-router"
 import router from "./router"
 Vue.use(VueRouter)
+
+
+
 // 关闭生产提示
 Vue.config.productionTip = false
 

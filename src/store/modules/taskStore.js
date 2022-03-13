@@ -1,24 +1,7 @@
 import { v4 as uuid } from "uuid";
 
 const state = {
-  taskDatas: [
-    {
-      key: 0,
-      name: "任务名111", //任务名
-      createDate: "2022-1-1", //创建时间
-      isCheck: true, //是否checked 选中
-      isFlag: false, //是否flag 标记
-      isEdit: false, //是否处于编辑模式
-    },
-    {
-      key: 1,
-      name: "name2",
-      createDate: "2022-1-1", //创建时间
-      isCheck: false,
-      isFlag: true,
-      isEdit: false, //是否处于编辑模式
-    },
-  ],
+  taskDatas: []
 };
 
 const actions = {
@@ -29,9 +12,7 @@ const actions = {
       key: uuid(), //id
       name: payload.name, //任务名
       createDate: payload.time, //添加的时间
-      isCheck: false, //是否选中
       isFlag: false, //是否标记
-      isEdit: false, //是否处于编辑模式
     });
   },
   // 删除一个任务，通过id
@@ -53,6 +34,10 @@ const actions = {
   //修改taskName
   changeTaskName({ commit }, payload) {
     commit("CHANGETASKNAME", payload);
+  },
+  //初始化数据
+  initData({ commit }, data) {
+    commit("INITDATA", data);
   },
 };
 const mutations = {
@@ -95,6 +80,14 @@ const mutations = {
         element.name = payload.name;
       }
     });
+  },
+  //初始化数据
+  INITDATA(state, data) {
+    if(data===undefined||data==""){
+
+    }else{
+      state.taskDatas = data;
+    }
   },
 };
 const getters = {};

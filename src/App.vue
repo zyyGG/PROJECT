@@ -18,18 +18,20 @@
     <!-- 测试用，可以删除 -->
     <a-row>
       <a-col :span="1"> 测试 </a-col>
-      <a-col :span="1">
-        <router-link to="/home">主页</router-link>
-      </a-col>
-      <a-col :span="1">
-        <router-link to="/login">登录</router-link>
-      </a-col>
-      <a-col :span="1">
-        <router-link to="/register">注册</router-link>
-      </a-col>
-      <a-col :span="1">
+      <a-col :span="2">
         <a-dropdown :trigger="['click']">
-          <a-button><a-icon type="plus"/>添加任务</a-button>
+          <a-button>router-link<a-icon type="down"></a-icon></a-button>
+          <a-menu slot="overlay">
+            <a-menu-item><router-link to="/home">主页</router-link></a-menu-item>
+            <a-menu-item><router-link to="/login">登录</router-link></a-menu-item>
+            <a-menu-item><router-link to="/register">注册</router-link></a-menu-item>
+            <a-menu-item><router-link to="/taskList">任务</router-link></a-menu-item>
+          </a-menu>
+        </a-dropdown>
+      </a-col>
+      <a-col :span="2">
+        <a-dropdown :trigger="['click']">
+          <a-button>添加新任务<a-icon type="plus"/></a-button>
           <a-menu slot="overlay">
             <a-menu-item @click="addManyTask(10)">添加10个</a-menu-item>
             <a-menu-item @click="addManyTask(20)">添加20个</a-menu-item>
@@ -53,12 +55,13 @@ export default {
 
   // 测试用-可以删除
   methods:{
+    // 添加新任务
     addManyTask(titck){
       for(let i=0;i<titck;i++){
         this.$store.dispatch("TaskStore/addTask",{name:"demo",time:"demo-time"})
       }
       
-    }
+    },
   }
 }
 </script>

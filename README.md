@@ -11,3 +11,6 @@
 - npm i vuex@3
 - npm i router
 - npm i uuid
+
+### 结构
+

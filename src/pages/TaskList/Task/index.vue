@@ -15,37 +15,42 @@
         @change="handleChange"
         @pressEnter="changeTaskName(taskData.key)"
       ></a-input>
-      <a-icon type="check" class="editable-cell-icon-check" @click="changeTaskName(taskData.key)"></a-icon>
+      <a-icon
+        type="check"
+        class="editable-cell-icon-check"
+        @click="changeTaskName(taskData.key)"
+      ></a-icon>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "Task",
-  props:['taskData'],
-  data() {
+  props: ['taskData'],
+  data () {
     return {
-      isEdit:false,
-      value:"",
+      isEdit: false,
+      value: "",
     }
   },
-  methods:{
+  methods: {
     // 输入框的值发生变化的时候执行
-    handleChange(e){
-      this.value=e.target.value
+    handleChange (e) {
+      this.value = e.target.value
     },
-    changeTaskName(key){
-      this.isEdit=false;
-      this.$store.dispatch("TaskStore/changeTaskName",{key:key,name:this.value})
-      this.value=" "
+    changeTaskName (key) {
+      this.isEdit = false
+      this.$store.dispatch("TaskStore/changeTaskName", { key: key, name: this.value })
+      this.value = " "
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
-
 .editable-cell {
   position: relative;
 }

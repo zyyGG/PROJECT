@@ -3,16 +3,20 @@
   <div>
     <!-- <TaskTool></TaskTool> -->
     <!-- :data-source="$store.state.TaskStore.taskDatas" -->
+    <div>
+      <a-button>添加任务<a-icon type="plus"></a-icon></a-button>
+      <!-- <a-button @click="upData">保存数据</a-button> -->
+    </div>
     <a-table
       :data-source="$store.state.TaskStore.taskDatas"
       tableLayout="fixed"
       :row-selection="rowSelection"
     >
-    <a-table-column key="flag" title="标记">
-      <template slot-scope="taskData">
-        <FlagButton :isFlag="taskData.isFlag" :taskKey="taskData.key"></FlagButton>
-      </template>
-    </a-table-column>
+      <a-table-column key="flag" title="标记">
+        <template slot-scope="taskData">
+          <FlagButton :taskData="taskData" :taskKey="taskData.key"></FlagButton>
+        </template>
+      </a-table-column>
       <a-table-column key="taskName" title="TaskName">
         <template slot-scope="taskData">
           <Task :taskData="taskData"></Task>
@@ -37,7 +41,10 @@ import Task from './Task'
 import TaskTurnPage from './TaskTurnPage'
 import TaskTool from './TaskTool'
 import FlagButton from './FlagButton'
+import mixin from '/src/mixins'
 
+//axios
+import axios from "axios"
 // // 选中的操作
 // const rowSelection = {
 //   onChange: (selectedRowKeys, selectedRows) => {
@@ -53,7 +60,8 @@ import FlagButton from './FlagButton'
 
 export default {
   name: "TaskList",
-  components: { Task, TaskTurnPage, TaskTool,FlagButton },
+  mixins: [mixin],
+  components: { Task, TaskTurnPage, TaskTool, FlagButton },
   data () {
     return {
       selectedRowKeys: [],//记录了所有选中的元素
@@ -64,6 +72,14 @@ export default {
     deleteTask (key) {
       this.$store.dispatch("TaskStore/deleteTaskById", key)
     },
+    // //上传数据
+    // upData () {
+    //   axios({
+    //     url: "http://localhost:10002/api/set/",
+    //     method: "post",
+    //     params: JSON.stringify(this.$store.state.TaskStore.taskDatas)
+    //   })
+    // }
   },
   computed: {
     rowSelection () {
@@ -90,6 +106,7 @@ export default {
             },
           },
           {
+            // 菜单，选中所有
             key: "seleteAll",
             text: "全选(所有)",
             onSelect: () => {
@@ -103,6 +120,38 @@ export default {
         ],
       }
 
+    }
+  },
+  mounted () {
+    //TaskList组件被选中的时候，(进入代办事项)，载入taskList.json文件
+    // axios("../data/taskList.json").then((value)=>{console.log("获取成功",value)})
+    axios("http://localhost:10002/api/get").then((response) => {
+      //成功读取时调用 response.data  ,开始初始化数据
+      // console.log(response.data)
+      this.$store.dispatch("TaskStore/initData", response.data)
+    }).catch((err)=>{
+      console.log("远程服务器连接失败")
+      this.$store.dispatch("TaskStore/initData", JSON.parse(localStorage.getItem("data")))
+      
+    })
+  },
+  //深度监听值
+  watch: {
+    "$store.state.TaskStore.taskDatas": {
+      deep: true,//深度监听
+      handler() {
+        this.debounce(()=>{
+          axios({
+            url: "http://localhost:10002/api/set/",
+            method: "post",
+            params: JSON.stringify(this.$store.state.TaskStore.taskDatas),
+            timeout:1000,
+          }).catch(()=>{
+            //如果保存失败，就将数据保存在本地
+            localStorage.setItem("data",JSON.stringify(this.$store.state.TaskStore.taskDatas).toString())
+          })
+        }, 300)//防抖，0.3s
+      }
     }
   }
 }
