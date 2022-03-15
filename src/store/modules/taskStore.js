@@ -1,17 +1,26 @@
 import { v4 as uuid } from "uuid";
 
 const state = {
-  taskDatas: []
+  taskDatas: [],
 };
 
 const actions = {
   //添加一个任务 payload :[name,time]
   addTask({ commit }, payload) {
+    if (!payload.time) {
+      let node = new Date();
+      payload.time = `${node.getFullYear()}/${node.getMonth()}/${node.getDate()}/${node.getHours()}:${node.getMinutes()}`;
+    }
+    if(!payload.tags){
+      payload.tags=[]
+    }
+
     // 添加新的任务格式--在这里修改
     commit("ADDTASK", {
       key: uuid(), //id
       name: payload.name, //任务名
       createDate: payload.time, //添加的时间
+      tags:payload.tags,//任务的标签
       isFlag: false, //是否标记
     });
   },
@@ -83,10 +92,11 @@ const mutations = {
   },
   //初始化数据
   INITDATA(state, data) {
-    if(data===undefined||data==""){
-
-    }else{
+    if (!data == null) {
+      
       state.taskDatas = data;
+    } else {
+      state.taskDatas=[]
     }
   },
 };
