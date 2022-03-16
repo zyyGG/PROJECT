@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-row type="flex" justify="center">
-      <a-col :span="18">
+    <a-row>
+      <a-col>
         <a-layout>
           <a-layout>
             <a-layout-sider><SideNav></SideNav></a-layout-sider>
@@ -12,6 +12,7 @@
               <a-layout-content><router-view></router-view></a-layout-content>
             </a-layout>
           </a-layout>
+          <a-layout-footer>Footer</a-layout-footer>
         </a-layout>
       </a-col>
     </a-row>

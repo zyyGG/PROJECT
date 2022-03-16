@@ -34,7 +34,8 @@
                 ],
               },
             ]"
-          v-model="newTaskName"></a-input>
+            v-model="newTaskName"
+          ></a-input>
         </a-form-item>
         <a-form-item label="添加标签">
           <a-select
@@ -70,9 +71,19 @@
       </a-table-column>
       <a-table-column key="tags" title="标签">
         <template slot-scope="taskData">
-          <a-tag v-for="(tag,index) in taskData.tags" :key="index" :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'">{{tag}}</a-tag>
+          <a-tag
+            v-for="(tag, index) in taskData.tags"
+            :key="index"
+            :color="
+              tag === 'loser'
+                ? 'volcano'
+                : tag.length > 5
+                ? 'geekblue'
+                : 'green'
+            "
+            >{{ tag }}</a-tag
+          >
         </template>
-        
       </a-table-column>
       <a-table-column
         key="createTime"
@@ -81,10 +92,14 @@
       ></a-table-column>
       <a-table-column key="action" title="选项">
         <template slot-scope="taskData">
-          <a-popconfirm title="确认删除本条任务吗？" ok-text="确定" cancel-text="取消" @confirm="deleteTask(taskData.key)">
-            <a-button type="link"><a-icon type="delete"/></a-button>
+          <a-popconfirm
+            title="确认删除本条任务吗？"
+            ok-text="确定"
+            cancel-text="取消"
+            @confirm="deleteTask(taskData.key)"
+          >
+            <a-button type="link"><a-icon type="delete" /></a-button>
           </a-popconfirm>
-          
         </template>
       </a-table-column>
     </a-table>
@@ -109,9 +124,9 @@ export default {
     return {
       selectedRowKeys: [],//记录了所有选中的元素
       visible: false,
-      selectItems: [],
+      selectItems: [],//tags添加框
       isMaxLength: false,//是否到达最大值  默认是3
-      newTaskName:""
+      newTaskName: ""
     }
   },
   methods: {
@@ -121,24 +136,25 @@ export default {
     },
     // 添加任务框，确认提交时
     handleOk (e) {
-      this.$store.dispatch("TaskStore/addTask",{name:this.newTaskName,tags:this.selectItems})
-      this.visible=false;//关闭显示框
-      this.newTaskName=""//重置输入框的内容
-      this.selectItems= []//重置tags选择框的内容
+      this.$store.dispatch("TaskStore/addTask", { name: this.newTaskName, tags: this.selectItems })
+      this.visible = false//关闭显示框
+      this.newTaskName = ""//重置输入框的内容
+      this.selectItems = []//重置tags选择框的内容
+      this.isMaxLength = false//取消掉选择框的禁用
+
     },
     //取消添加任务框
     handleCancel (e) {
       this.visible = false//关闭输入框
-      this.newTaskName=""//重置输入框的内容
-      this.selectItems= []//重置tags选择框的内容
+      this.newTaskName = ""//重置输入框的内容
+      this.selectItems = []//重置tags选择框的内容
+      this.isMaxLength = false//取消掉选择框的禁用
     },
     //添加新的tags时 ，最多的值默认是3个
     handleChange (value) {
       this.selectItems = value
       if (value.length >= 3) {
         this.isMaxLength = true
-      } else {
-        this.isMaxLength = false
       }
     },
   },
@@ -200,15 +216,18 @@ export default {
     }).then((response) => {
       this.$store.dispatch("TaskStore/initData", response.data)
     }).catch((err) => {
+      //将taskDatas里面的数据初始化，但同时也会触发watch
       this.$store.dispatch("TaskStore/initData", JSON.parse(localStorage.getItem("data")))
 
     })
   },
-  //深度监听state.taskStore的值
+
   watch: {
+    //深度监听state.taskStore的值
     "$store.state.TaskStore.taskDatas": {
       deep: true,//深度监听
       handler () {
+        //防抖节流，mixin的内容
         this.debounce(() => {
           axios({
             url: "http://localhost:10002/api/set/",

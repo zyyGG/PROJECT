@@ -92,10 +92,12 @@ const mutations = {
   },
   //初始化数据
   INITDATA(state, data) {
-    if (!data == null) {
-      
+    //只要数据不是空
+    if (data !== null) {
+      //就把数据赋值给taskDatas
       state.taskDatas = data;
     } else {
+      //否则就初始化taskDatas为数组，不然会异常
       state.taskDatas=[]
     }
   },
