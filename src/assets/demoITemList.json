@@ -1,0 +1,20 @@
+[
+    {
+        "key":"1",
+        "name":"橘子",
+        "price":"50",
+        "stock":"20",
+        "maxStock":"100",
+        "sellCount":"2",
+        "createTime":"2022-1-1"
+    },
+    {
+        "key":"2",
+        "name":"苹果",
+        "price":"200",
+        "stock":"50",
+        "maxStock":"100",
+        "sellCount":"3",
+        "createTime":"2022-1-3"
+    }
+]
