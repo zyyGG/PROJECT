@@ -4,6 +4,23 @@
     <div class="logo">L<router-link to="/home"><a-icon spin type="loading-3-quarters" /></router-link>GO</div>>
     <!-- 用户导航菜单 -->
     <a-menu mode="inline" theme="dark">
+      <a-menu-item>
+        <a-icon type="home" /><span>首页</span>
+        <router-link to="/home"></router-link>
+      </a-menu-item>
+      <a-sub-menu>
+        <span slot="title">
+          <a-icon type="plus"/><span>商品</span>
+        </span>
+        <a-menu-item key="add">
+          <a-icon type="plus"/><span>发布商品</span>
+          <router-link to="/addItem"></router-link>
+        </a-menu-item>
+        <a-menu-item key="mine">
+          <a-icon type="plus"/><span>在线商品</span>
+          <router-link to="/myItem"></router-link>
+        </a-menu-item>
+      </a-sub-menu>
       <a-sub-menu>
         <span slot="title"
           ><a-icon type="user"></a-icon><span>个人中心</span></span
