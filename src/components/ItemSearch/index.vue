@@ -38,7 +38,7 @@
               已选
           </span>
           <span style="min-width:50px;display:inline-block"></span>
-          <a-button>批量删除</a-button>
+          <a-button @click="deleteChooseData">批量删除</a-button>
           <a-dropdown>
               <a-button>更多批量操作<a-icon type="down"/></a-button>
               <a-menu slot="overlay">
@@ -53,9 +53,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   //物品搜索组件
-  name: "ItemSearch"
+  name: "ItemSearch",
+  methods:{
+    ...mapActions({deleteData:"onlineItemList/deleteData"}),
+    deleteChooseData(){
+      this.deleteData()
+    }
+  }
 }
 </script>
 
