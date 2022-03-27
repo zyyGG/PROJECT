@@ -1,16 +1,83 @@
-# TodoList
-本项目使用 Vue2 框架搭建，本意用于学习以及使用Vue框架的使用，以及Vuex,routerLink的学习使用
-
-##使用bootatrap.css样式
-- `<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">`
-
-##使用了font-awesome字体样式
-- `<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">`
-
-### 库以及插件
-- npm i vuex@3
-- npm i router
-- npm i uuid
-
+## 项目介绍
 ### 结构
+---
+```
+|-- PROJECT
+    |-- public
+    |   |-- favicon.ico
+    |   |-- index.html
+    |-- src
+    |   |-- App.vue
+    |   |-- main.js
+    |   |-- assets
+    |   |   |-- demoItemList.json
+    |   |   |-- demoItemList文件结构.md
+    |   |-- components
+    |   |   |-- ItemSearch
+    |   |   |   |-- index.vue
+    |   |   |-- MessageBox
+    |   |   |   |-- index.vue
+    |   |   |-- SideNav
+    |   |   |   |-- index.vue
+    |   |   |-- TasksFooter
+    |   |   |   |-- index.vue
+    |   |   |-- TasksHeader
+    |   |       |-- index.vue
+    |   |-- mixins
+    |   |   |-- index.js
+    |   |-- pages
+    |   |   |-- AddItem
+    |   |   |   |-- index.vue
+    |   |   |-- Home
+    |   |   |   |-- index.vue
+    |   |   |   |-- assets
+    |   |   |       |-- img01.png
+    |   |   |       |-- img02.png
+    |   |   |       |-- img03.png
+    |   |   |       |-- img04.png
+    |   |   |-- Login
+    |   |   |   |-- index.vue
+    |   |   |-- MyItem
+    |   |   |   |-- index.vue
+    |   |   |   |-- AllItem
+    |   |   |   |   |-- index.vue
+    |   |   |   |-- OnSell
+    |   |   |   |   |-- index.vue
+    |   |   |   |-- Others
+    |   |   |       |-- index.vue
+    |   |   |-- Register
+    |   |   |   |-- index.vue
+    |   |   |-- TaskList
+    |   |       |-- index.vue
+    |   |       |-- FlagButton
+    |   |       |   |-- index.vue
+    |   |       |-- Task
+    |   |       |   |-- index.vue
+    |   |       |-- TaskTool
+    |   |       |   |-- index.vue
+    |   |       |-- TaskTurnPage
+    |   |           |-- index.vue
+    |   |-- router
+    |   |   |-- index.js
+    |   |-- store
+    |       |-- index.js
+    |       |-- modules
+    |           |-- onlineItemList.js
+    |           |-- taskStore.js
+```
+### 功能
+---
+
+
+## 库
+* npm i animate.css     (`过渡动画`)
+* npm i ant-design-vue  (`UI组件库`)
+* npm i axios   (`ajax`)
+* npm i echarts (`图表`)
+* npm i typescript
+* npm i uuid
+* npm i vue-router
+* npm i vuex
+
+
 
