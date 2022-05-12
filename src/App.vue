@@ -4,12 +4,21 @@
       <a-col>
         <a-layout>
           <a-layout>
-            <a-layout-sider><SideNav></SideNav></a-layout-sider>
+            <a-layout-sider>
+              <SideNav></SideNav>
+              
+            </a-layout-sider>
             <a-layout>
               <a-layout-header>
                 <TasksHeader></TasksHeader>
               </a-layout-header>
-              <a-layout-content><router-view></router-view></a-layout-content>
+              <!-- 页面主要内容 -->
+              <a-layout-content>
+                <div class="content">
+                  <router-view></router-view>
+                </div>
+                
+                </a-layout-content>
             </a-layout>
           </a-layout>
           <a-layout-footer>Footer</a-layout-footer>
@@ -68,4 +77,7 @@ export default {
 </script>
 
 <style>
+.content{
+  margin:10px;
+}
 </style>

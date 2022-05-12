@@ -1,229 +1,157 @@
 <template>
   <div>
-    <p>发布商品</p>
-    <div>
-      <p>商品发布</p>
-      <a-menu>
-        <a-menu-item>基础信息</a-menu-item>
-        <a-menu-item>销售信息</a-menu-item>
-        <a-menu-item>物流信息</a-menu-item>
-        <a-menu-item>支付信息</a-menu-item>
-        <a-menu-item>图文描述</a-menu-item>
-        <a-menu-item>售后服务</a-menu-item>
-      </a-menu>
-      <div>
-        <p>基础信息</p>
-        <hr />
-        <a-form>
-          <a-form-item label="物品类型">
-            <a-radio>全新</a-radio>
-            <a-radio>二手</a-radio>
+    <div class="addItem">
+      <a-form :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }" :form="form">
+        <a-form-item label="标题">
+          <a-input placeholder="你的物品标题" v-model="itemTitle" />
+        </a-form-item>
+        <a-form-item label="物品特点" :wrapper-col="{ span: 10 }">
+          <a-input
+            v-for="(item, index) in itemPoint"
+            :key="index"
+            v-model="item.content"
+          ></a-input>
+          <a-button @click="addPoint"> <a-icon type="plus" /></a-button>
+        </a-form-item>
+        <a-form-item label="物品状态">
+          <a-radio-group v-model="itemState">
+            <a-radio value="newBrand"> 全新 </a-radio>
+            <a-radio value="opend"> 开封/未使用 </a-radio>
+            <a-radio value="used"> 二手 </a-radio>
+            <a-radio value="more"> 三手以及更多 </a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item label="多属性">
+          <a-button><a-icon type="plus" />多属性</a-button>
+        </a-form-item>
+        <a-form-item label="上传图片">
+          <a-upload
+            :file-list="fileList"
+            list-type="picture-card"
+            action="https://notHaveServer"
+          >
+            <div
+              v-if="fileList.length < 8"
+              style="border:dashed,width:50px;height:50px"
+            >
+              <a-icon type="plus" />
+              <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+        </a-form-item>
+        <a-form-item label="物品详情" :label-col="{ span: 3 }">
+          <a-form-item label="颜色" :wrapper-col="{ span: 10 }">
+            <a-input v-model="itemColor"></a-input>
           </a-form-item>
-          <a-form-item label="物品标题">
-            <a-input placeholder="最多允许输入30个汉字(60个字符)"></a-input>
+          <a-form-item label="尺码" :wrapper-col="{ span: 10 }">
+            <a-input v-model="itemSize"></a-input>
           </a-form-item>
-          <a-form-item label="导购标题">
-            <a-input-group compact>
-              <a-input placeholder="demo"></a-input>
-              <a-select>
-                <a-select-option value="1"> item1 </a-select-option>
-                <a-select-option value="2"> item2 </a-select-option>
-              </a-select>
-            </a-input-group>
-            <a-input-group compact>
-              <a-input placeholder="请输入袖长"></a-input>
-              <a-select>
-                <a-select-option value="1"> item1 </a-select-option>
-              </a-select>
-            </a-input-group>
-            <a-input-group compact>
-              <a-input placeholder="请输入适用对象"></a-input>
-              <a-select>
-                <a-select-option value="1"> item1 </a-select-option>
-              </a-select>
-            </a-input-group>
-            <a-input-group compact>
-              <a-input placeholder="请输入亮点"></a-input>
-              <a-button>删除</a-button>
-            </a-input-group>
-            <a-input-group compact>
-              <a-input placeholder="请输入品类词"></a-input>
-              <a-select>
-                <a-select-option value="1"> item1 </a-select-option>
-              </a-select>
-            </a-input-group>
-            <a-input-group compact>
-              <a-input placeholder="请输入利益点"></a-input>
-              <a-button>删除</a-button>
-            </a-input-group>
-            <a-button>新增</a-button>
-            <p>(0/30)</p>
-            展示效果
-            <a-button>开始排序</a-button>
-            <p class="descript">
-              导购标题在不影响商品在搜索排序的前提下，会优先在搜索、详情、购物车、直播等场域，替代原长标题优先展示。为了方便消费者了解商品，提升商品转化效率，建议您填写简明准确的标题内容，避免文字重复表达
-            </p>
+          <a-form-item label="图案" :wrapper-col="{ span: 10 }">
+            <a-input v-model="itemPatten"></a-input>
           </a-form-item>
-          <a-form-item label="类目属性">
-            <p>重要属性1/13</p>
-            <b>填完*项即可发布上架</b>
-            <a-row :gutter="24">
-              <a-col :span="12">
-                <a-form-item label="品牌">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="货号">
-                  <a-input></a-input>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="袖长">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="领型">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="版型">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="基础风格">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="材质成分">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="品牌类型">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="面料">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <div>
-                  <a-form-item label="袖长">
-                    <a-select placeholder="请选择材质" show-search>
-                      <a-select-option value="1"> item </a-select-option>
-                    </a-select>
-                  </a-form-item>
-                  <a-button>删除</a-button>
-                </div>
-                <div>
-                  <a-form-item label="袖长">
-                    <a-select placeholder="请选择材质" show-search>
-                      <a-select-option value="1"> item </a-select-option>
-                    </a-select>
-                  </a-form-item>
-                  <a-button>删除</a-button>
-                </div>
-                <a-button>添加材质成分</a-button>
-              </a-col>
-            </a-row>
-            <a-row :gutter="24">
-              <a-col>
-                其他属性 0/8
-                <p>其他参数的补充说明</p>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="印花主题">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="面料分类">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="款式细节">
-                  <a-button>设置</a-button>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="服饰工艺">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="适用季节">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="适用场景">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="适用对象">
-                  <a-select placeholder="请选择" show-search>
-                    <a-select-option value="1"> item </a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-            </a-row>
+          <a-form-item label="模板" :wrapper-col="{ span: 10 }">
+            <a-input></a-input>
           </a-form-item>
-          <a-form-item label="物品定制">
-            <a-radio>否</a-radio>
-            <a-radio>支持</a-radio>
+        </a-form-item>
+        <a-form-item label="售卖详情" :label-col="{ span: 3 }">
+          <a-form-item label="价格/个" :wrapper-col="{ span: 10 }">
+            <a-input v-model="itemPrice" type="number" prefix="￥"></a-input>
           </a-form-item>
-          <a-form-item label="采购地">
-            <a-radio>中国内地(大陆)</a-radio>
-            <a-radio>中国港澳台地区及其他国家和地区</a-radio>
+          <a-form-item label="数量" :wrapper-col="{ span: 10 }">
+            <a-input v-model="itemCount" type="number"></a-input>
           </a-form-item>
-        </a-form>
-      </div>
-      
+        </a-form-item>
+        <a-form-item
+          label="发货地址"
+          :label-col="{ span: 3 }"
+          :wrapper-col="{ span: 20 }"
+        >
+          <a-input-group compact>
+            <a-select default-value="hubei">
+              <a-select-option value="hubei">湖北省</a-select-option>
+              <a-select-option value="beijin">北京省</a-select-option>
+            </a-select>
+            <a-select default-value="shiyan">
+              <a-select-option value="shiyan">十堰市</a-select-option>
+              <a-select-option value="wuhan">武汉市</a-select-option>
+            </a-select>
+            <a-select default-value="maojian">
+              <a-select-option value="maojian">茅箭区</a-select-option>
+            </a-select>
+          </a-input-group>
+        </a-form-item>
+        <a-form-item label="运费" :wrapper-col="{ span: 5 }">
+          <a-input prefix="￥"></a-input>
+        </a-form-item>
+        <a-button type="primary" @click="submit">提交</a-button>
+        <a-button type="default">取消</a-button>
+      </a-form>
     </div>
+    <div></div>
   </div>
 </template>
 
 <script>
+import axios from "axios"
 export default {
-  name: "AddItem",
+  data () {
+    return {
+      itemTitle: "",//物品标题
+      itemState: "",//物品状态
+      itemColor: "",//物品颜色
+      itemPatten: "",//物品图案
+      itemPrice: "",//物品价格
+      itemCount: "",//物品数量
+      itemSize: "",//物品尺码
 
+      itemPoint: [{ key: 0, content: "" }, { key: 1, content: "" }],//物品特点表
+      fileList: [
+      ],//上传的图片列表
+      form: this.$form.createForm(this, { name: 'coordinated' }),
+    }
+  },
+  methods: {
+    //   增加一个物品特点
+    addPoint () {
+      let key = this.itemPoint[this.itemPoint.length - 1].key
+      const newPoint = { key: key + 1, content: "" }
+      this.itemPoint.push(newPoint)
+    },
+    // 提交数据
+    submit () {
+      const newItem = {
+        // 检查数据的格式是否正确 -- 省略
+        itemTitle: this.itemTitle,
+        itemState: this.itemState,
+        itemColor: this.itemColor,
+        itemPatten: this.itemPatten,
+        itemPrice: this.itemPrice,
+        itemCount: this.itemCount,
+        itemSize: this.itemSize,
+        itemPoint: this.itemPoint
+      }
+      axios.post("http://localhost:10002/api/submit",newItem)
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        }),
+      console.log("发送成功",newItem)
+    }
+  }
 }
 </script>
 
-<style>
+<style scoped>
+.addItem {
+  width: 800px;
+  padding: 0px 30px;
+  /* border: 1px solid black; */
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
 </style>
