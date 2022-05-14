@@ -21,7 +21,7 @@
           <a>
             <a-space>
               <a-avatar icon="user"></a-avatar>
-              <span>AKADEMO</span>
+              <router-link to="/login">登录/注册</router-link>
               <a-icon type="down" />
             </a-space>
           </a>

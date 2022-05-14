@@ -8,9 +8,10 @@
             <a-input
               v-decorator="[
                 'username',
-                { rules: [{ required: true, message: '请输入姓名' }] },
+                { rules: [{ required: true, message: '请输入账户名' }] },
               ]"
               placeholder="UserName"
+              v-model="username"
             >
               <a-icon slot="prefix" type="user" />
             </a-input>
@@ -32,6 +33,7 @@
                 },
               ]"
               type="password"
+              v-model="password"
             >
               <a-icon slot="prefix" type="lock" />
             </a-input>
@@ -55,7 +57,7 @@
             </a-row>
             <a-row type="flex" justify="center">
               <a-col>
-                <a-button type="primary" html-type="submit"> 登录 </a-button>
+                <a-button type="primary" html-type="submit" @click="login"> 登录 </a-button>
                 或者 <router-link to="/register">注册</router-link>
               </a-col>
             </a-row>
@@ -67,8 +69,26 @@
 </template>
 
 <script>
+import axios from "axios"
 export default {
-  name: "Login"
+  name: "Login",
+  data() {
+    return {
+      username:"",
+      password:"",
+    }
+  },
+  methods:{
+    //向后台服务器提供用户填写的账号和密码
+    login(){
+      // console.log(this.username,this.password)
+      axios.post('http://localhost:10002/api/login',{
+        username:this.username,
+        password:this.password
+      }).then(res => console.log(res)).catch(err => console.log(err))
+
+    }
+  }
 }
 </script>
 
