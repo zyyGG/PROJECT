@@ -21,7 +21,8 @@
           <a>
             <a-space>
               <a-avatar icon="user"></a-avatar>
-              <router-link to="/login">登录/注册</router-link>
+              <router-link to="/login" v-if="!username">登录/注册</router-link>
+              <span v-else>{{username}}</span> 
               <a-icon type="down" />
             </a-space>
           </a>
@@ -38,7 +39,14 @@
 
 <script>
 export default {
-  name: "TasksHeader"
+  name: "TasksHeader",
+  computed:{
+    username(){
+      let name = this.$store.state.userInfor.userName
+      if(name !== "") return name
+      else return undefined
+    }
+  },
 }
 </script>
 
