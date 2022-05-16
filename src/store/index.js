@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 //导入其他的modules文件
 import TaskStore from './modules/taskStore'
 import onlineItemList from './modules/onlineItemList'
+import userInfor from './modules/userInfo'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -11,6 +12,7 @@ export default new Vuex.Store({
     // strict: process.env.NODE_ENV !== 'production',//在开发模式中启用严格模式
     modules:{
         TaskStore,
-        onlineItemList
+        onlineItemList,
+        userInfor
     }
 })
