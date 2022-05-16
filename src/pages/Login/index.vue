@@ -57,7 +57,14 @@
             </a-row>
             <a-row type="flex" justify="center">
               <a-col>
-                <a-button type="primary" html-type="submit" @click="login"> 登录 </a-button>
+                <a-button
+                  type="primary"
+                  html-type="submit"
+                  @click="login"
+                  :loading="isloading"
+                >
+                  登录
+                </a-button>
                 或者 <router-link to="/register">注册</router-link>
               </a-col>
             </a-row>
@@ -70,22 +77,46 @@
 
 <script>
 import axios from "axios"
+import { response } from "express"
 export default {
   name: "Login",
-  data() {
+  data () {
     return {
-      username:"",
-      password:"",
+      username: "",
+      password: "",
+      isloading: false,//是否处于预载中
     }
   },
-  methods:{
+  methods: {
     //向后台服务器提供用户填写的账号和密码
-    login(){
+    login () {
+
+
       // console.log(this.username,this.password)
-      axios.post('http://localhost:10002/api/login',{
-        username:this.username,
-        password:this.password
-      }).then(res => console.log(res)).catch(err => console.log(err))
+      
+      // 增加用户名称和密码的判断
+      if (this.username !== "" && this.password !== "") {
+        // 名称不为空
+        this.isloading = true
+        setTimeout(() => {
+          axios.post('http://localhost:10002/api/login', {
+            username: this.username,
+            password: this.password
+          }).then(res => {
+            if (res.data === "accped") {
+              // 登录成功
+              console.log("登录成功")
+              this.$store.state.userInfor.userName = this.username//修改用户名称
+              this.$router.push("/home")
+            } 
+          }).catch(err => console.log(err))
+          this.isloading = false
+        }, 1000)
+      }else{
+        alert("账号/密码不能为空")
+
+      }
+
 
     }
   }
