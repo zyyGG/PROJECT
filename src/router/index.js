@@ -2,6 +2,7 @@
 import VueRouter from "vue-router";
 
 // 引入路由组件
+import NONES from "../pages/NONES"
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -14,6 +15,12 @@ import Others from "../pages/MyItem/Others";
 
 const router = new VueRouter({
   routes: [
+    // 第一页面
+    {
+      name:"NONES",
+      path:"/",
+      component:NONES,
+    },
     // 主页组件
     {
       name: "Home",
